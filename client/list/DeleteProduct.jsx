@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
@@ -8,38 +8,50 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import { Navigate } from 'react-router-dom'
 import auth from '../lib/auth-helper.js'
-import {remove} from './api-list.js'
+import { remove } from './api-list.js'
 
 export default function DeleteProduct(props) {
   const [open, setOpen] = useState(false)
+  const [redirect, setRedirect] = useState(false)
   
   const jwt = auth.isAuthenticated()
+  
   const clickButton = () => {
     setOpen(true)
   }
+
   const deleteProduct = () => {
     remove({
       productId: props.product._id
-    }, {t: jwt.token}).then((data) => {
+    }, { t: jwt.token }).then((data) => {
       if (data.error) {
         console.log(data.error)
       } else {
         setOpen(false)
         props.onRemove(props.product)
+        setRedirect(true)
       }
     })
   }
+
   const handleRequestClose = () => {
     setOpen(false)
   }
-    return (<span>
+  
+  if (redirect) {
+    return <Navigate to="/user/products" />
+  }
+
+  return (
+    <span>
       <IconButton aria-label="Delete" onClick={clickButton} color="secondary">
-        <DeleteIcon/>
+        <DeleteIcon />
       </IconButton>
 
       <Dialog open={open} onClose={handleRequestClose}>
-        <DialogTitle>{"Delete "+props.product.name}</DialogTitle>
+        <DialogTitle>{"Delete " + props.product.name}</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Confirm to delete your product {props.product.name}.
@@ -54,8 +66,10 @@ export default function DeleteProduct(props) {
           </Button>
         </DialogActions>
       </Dialog>
-    </span>)
+    </span>
+  )
 }
+
 DeleteProduct.propTypes = {
   product: PropTypes.object.isRequired,
   onRemove: PropTypes.func.isRequired

@@ -12,8 +12,8 @@ const create = (req, res) => {
 
     console.log('Fields:', fields);
 
-    const name = Array.isArray(fields.name) ? fields.name[0] : fields.name;
-    const description = Array.isArray(fields.description) ? fields.description[0] : fields.description;
+    const name = Array.isArray(fields.name) ? fields.name.join('') : fields.name;
+    const description = Array.isArray(fields.description) ? fields.description.join('') : fields.description;
 
     let product = new Product({
       name: name,

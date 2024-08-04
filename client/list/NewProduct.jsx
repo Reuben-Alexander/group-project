@@ -64,7 +64,7 @@ export default function NewProduct() {
       productData.append('name', values.name);
     }
     if (Array.isArray(values.description)) {
-      productData.append('description', values.description.join(', '));
+      productData.append('description', values.description[0]);//join
     } else {
       productData.append('description', values.description);
     }

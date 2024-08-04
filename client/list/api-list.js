@@ -56,20 +56,34 @@ const read = async (params, signal) => {
 }
 
 const update = async (params, credentials, product) => {
+  if (Array.isArray(product.description)) {
+    product.description = product.description[0];
+    //join
+  }
+
+  console.log('Product Data:', product);
+
   try {
-    let response = await fetch('/api/product/' + params.productId, {  
+    let response = await fetch('/api/product/' + params.productId, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + credentials.t
       },
-      body: product
-    })
-    return response.json()
+      body: JSON.stringify(product)
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok.');
+    }
+
+    return response.json();
   } catch (err) {
-    console.log(err)
+    console.error('Error:', err);
+    throw err;
   }
-}
+};
+
 
 const remove = async (params, credentials) => {
   try {
