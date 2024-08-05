@@ -14,7 +14,6 @@ import { remove } from './api-list.js'
 
 export default function DeleteProduct(props) {
   const [open, setOpen] = useState(false)
-  const [redirect, setRedirect] = useState(false)
   
   const jwt = auth.isAuthenticated()
   
@@ -31,7 +30,6 @@ export default function DeleteProduct(props) {
       } else {
         setOpen(false)
         props.onRemove(props.product)
-        setRedirect(true)
       }
     })
   }
@@ -40,9 +38,7 @@ export default function DeleteProduct(props) {
     setOpen(false)
   }
   
-  if (redirect) {
-    return <Navigate to="/user/products" />
-  }
+
 
   return (
     <span>

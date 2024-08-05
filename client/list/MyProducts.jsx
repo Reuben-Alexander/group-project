@@ -71,7 +71,7 @@ export default function MyProducts() {
   };
 
   if (redirectToSignin) {
-    return <Navigate to='/user/products' />;
+    return <Navigate to='/owner/product' />;
   }
 
   return (
@@ -80,7 +80,7 @@ export default function MyProducts() {
         <Typography type="title" className={classes.title}>
           Your Products
           <span className={classes.addButton}>
-            <Link to="/user/product/new">
+            <Link to="/owner/product/new">
               <Button color="primary" variant="contained">
                 <Icon className={classes.leftIcon}>add_box</Icon> New Product
               </Button>
@@ -94,7 +94,7 @@ export default function MyProducts() {
                 <ListItemText primary={product.name} secondary={product.description} />
                 {auth.isAuthenticated().user && auth.isAuthenticated().user._id === product.owner._id && (
                   <ListItemSecondaryAction>
-                    <Link to={"/user/product/edit/" + product._id}>
+                    <Link to={"/owner/product/edit/" + product._id}>
                       <IconButton aria-label="Edit" color="primary">
                         <Edit />
                       </IconButton>

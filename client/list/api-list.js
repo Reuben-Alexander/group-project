@@ -16,7 +16,7 @@ const create = async (params, credentials, product) => {
 
 const list = async (signal) => {
   try {
-    let response = await fetch('/api/products', {
+    let response = await fetch('/api/product', {
       method: 'GET',
       signal: signal
     })
@@ -56,12 +56,6 @@ const read = async (params, signal) => {
 }
 
 const update = async (params, credentials, product) => {
-  if (Array.isArray(product.description)) {
-    product.description = product.description[0];
-    //join
-  }
-
-  console.log('Product Data:', product);
 
   try {
     let response = await fetch('/api/product/' + params.productId, {
@@ -70,17 +64,12 @@ const update = async (params, credentials, product) => {
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + credentials.t
       },
-      body: JSON.stringify(product)
+      body: product
     });
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok.');
-    }
 
     return response.json();
   } catch (err) {
     console.error('Error:', err);
-    throw err;
   }
 };
 

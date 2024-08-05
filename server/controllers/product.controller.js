@@ -6,9 +6,6 @@ import formidable from 'formidable';
 const create = (req, res) => {
   let form = formidable({ keepExtensions: true });
   form.parse(req, async (err, fields, files) => {
-    if (err) {
-      return res.status(400).json({ message: "Image could not be uploaded" });
-    }
 
     console.log('Fields:', fields);
 
@@ -19,7 +16,7 @@ const create = (req, res) => {
       name: name,
       description: description
     });
-
+    console.log(req);
     product.owner = req.profile;
     try {
       let result = await product.save();
@@ -35,7 +32,7 @@ const create = (req, res) => {
 
 const productByID = async (req, res, next, id) => {
   try {
-    let product = await Product.findById(id).populate('owner', '_id name').exec()
+    let product = await Product.findById(id).populate('owner', '_id').exec()
     if (!product)
       return res.status('400').json({
         error: "Product not found"
@@ -56,13 +53,13 @@ const read = (req, res) => {
 const update = (req, res) => {
   let form = formidable({ keepExtensions: true })
   form.parse(req, async (err, fields, files) => {
-    if (err) {
-      return res.status(400).json({
-        message: "Image could not be uploaded"
-      })
-    }
+    Object.keys(fields).forEach(key => fields[key] = fields[key][0])
+    Object.keys(files).forEach(key => files[key] = files[key][0])
     let product = req.product
+    console.log(product)
+    console.log('Fields:', fields);
     product = extend(product, fields)
+    console.log(product)
     product.updated = Date.now()
     try {
       let result = await product.save()
@@ -89,7 +86,7 @@ const remove = async (req, res) => {
 
 const listByOwner = async (req, res) => {
   try {
-    let products = await Product.find({ owner: req.profile._id }).populate('owner', '_id name')
+    let products = await Product.find({ owner: req.profile._id }).populate('owner', '_id')
     res.json(products)
   } catch (err) {
     return res.status(400).json({

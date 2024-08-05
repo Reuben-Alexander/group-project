@@ -86,7 +86,7 @@ export default function NewProduct() {
   
 
     if (values.redirect) {
-      return (<Navigate to={'/user/product'}/>)
+      return (<Navigate to={'/owner/product'}/>)
     }
     return (<div>
       <Card className={classes.card}>
@@ -113,7 +113,7 @@ export default function NewProduct() {
         </CardContent>
         <CardActions>
           <Button color="primary" variant="contained" onClick={clickSubmit} className={classes.submit}>Submit</Button>
-          <Link to='/user/product' className={classes.submit}><Button variant="contained">Cancel</Button></Link>
+          <Link to='/owner/product' className={classes.submit}><Button variant="contained">Cancel</Button></Link>
         </CardActions>
       </Card>
     </div>)

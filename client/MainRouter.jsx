@@ -31,9 +31,9 @@ function MainRouter() {
                     }
                 />
                 <Route path="/user/:userId" element={<Profile />} />
-                <Route path="/user/products" element={<PrivateRoute><MyProducts /></PrivateRoute>} />
-                <Route path="/user/product/new" element={<PrivateRoute><NewProduct /></PrivateRoute>} />
-                <Route path="/user/product/edit/:productId" element={<PrivateRoute><EditProduct /></PrivateRoute>} />
+                <Route path="/owner/product" element={<PrivateRoute><MyProducts /></PrivateRoute>} />
+                <Route path="/owner/product/new" element={<PrivateRoute><NewProduct /></PrivateRoute>} />
+                <Route path="/owner/product/edit/:productId" element={<PrivateRoute><EditProduct /></PrivateRoute>} />
             </Routes>
         </div>
     );

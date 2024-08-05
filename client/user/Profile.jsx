@@ -55,7 +55,7 @@ export default function Profile({ match }) {
     }, [userId])
 
     if (redirectToSignin) {
-        return <Navigate to="/signin" state={{ from: location.pathname }} replace />;
+        return <Navigate to="/owner/product" state={{ from: location.pathname }} replace />;
 
     }
     if (auth.isAuthenticated()) {

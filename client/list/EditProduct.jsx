@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EditProduct() {
-  const { productId } = useParams();
+  const params = useParams();
   const classes = useStyles();
   const [values, setValues] = useState({
     name: '',
@@ -56,7 +56,7 @@ export default function EditProduct() {
     const abortController = new AbortController();
     const signal = abortController.signal;
 
-    read({ productId }, signal).then((data) => {
+    read({ productId:params.productId}, signal).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
@@ -72,35 +72,33 @@ export default function EditProduct() {
     return () => {
       abortController.abort();
     };
-  }, [productId]);
+  }, []);
 
   const clickSubmit = () => {
-    const product = {
-      name: values.name,
-      description: values.description,
-    };
-
-    update({ productId }, { t: jwt.token }, product)
-      .then((data) => {
-        if (data.error) {
-          setValues({ ...values, error: data.error });
-        } else {
-          setValues({ ...values, error: '', redirect: true });
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        setValues({ ...values, error: 'Update failed. Please try again later.' });
-      });
-  };
+    let productData = new FormData()
+    values.name && productData.append('name', values.name)
+    values.description && productData.append('description', values.description)
+    update({
+      productId: params.productId
+    }, {
+      t: jwt.token
+    }, productData).then((data) => {
+      if (data.error) {
+        setValues({...values, error: data.error})
+      } else {
+        setValues({...values, 'redirect': true})
+      }
+    })
+  }
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
   if (values.redirect) {
-    return <Navigate to="/user/products" />;
+    return <Navigate to="/owner/product" />;
   }
+
 
   return (
     <div className={classes.root}>

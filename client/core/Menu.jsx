@@ -43,7 +43,7 @@ export default function Menu() {
         {
         auth.isAuthenticated() && (
         <span>
-          {auth.isAuthenticated().user && (<Link to="/user/products"><Button style={isActive(location, "/user/products")}>My Products</Button></Link>)}
+          {auth.isAuthenticated().user && (<Link to="/owner/product"><Button style={isActive(location, "/owner/product")}>My Products</Button></Link>)}
           <Link to={"/user/" + auth.isAuthenticated().user._id}>
             <Button style={isActive(location, "/user/" + auth.isAuthenticated().user._id)}>My Profile</Button>
           </Link>
