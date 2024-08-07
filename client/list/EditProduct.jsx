@@ -127,9 +127,6 @@ export default function EditProduct() {
                 onChange={handleChange('description')}
                 margin="normal"
               />
-              <Typography variant="h6" component="h4" className={classes.title}>
-                Owner: {values.owner}
-              </Typography>
               {values.error && (
                 <Typography component="p" color="error">
                   <Icon color="error" className={classes.error}>
