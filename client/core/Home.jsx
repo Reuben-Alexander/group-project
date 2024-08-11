@@ -7,33 +7,136 @@ import Typography from '@material-ui/core/Typography';
 import unicornbikeImg from './../assets/images/group-logo.png';
 
 const useStyles = makeStyles(theme => ({
- card: {
- maxWidth: 600,
- margin: 'auto',
- marginTop: theme.spacing(5),
+ // root: {
+ //  backgroundColor: 'black',
+ //
+ // },
+ // card: {
+ // maxWidth: 600,
+ // margin: 'auto',
+ // marginTop: theme.spacing(5),
+ //  backgroundColor: 'black',
+ // },
+ //
+ // title: {
+ // padding: theme.spacing(3, 2.5, 2),
+ // color: theme.palette.openTitle,
+ // },
+ // media: {
+ // minHeight: 400,
+ // },
+
+ root: {
+  backgroundColor: 'black',
+  height: '100vh',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  animation: '$backgroundAnimation 10s infinite alternate',
  },
- title: {
- padding: theme.spacing(3, 2.5, 2),
- color: theme.palette.openTitle,
+ card: {
+  backgroundColor: 'black',
+  transition: 'transform 0.5s ease',
+  '&:hover': {
+   transform: 'scale(1.05)',
+  },
  },
  media: {
- minHeight: 400,
+  height: '80vh',
+  width: 'auto',
+  opacity: 0,
+  animation: '$fadeIn 2s forwards',
  },
+ '@keyframes fadeIn': {
+  '0%': {
+   opacity: 0,
+  },
+  '100%': {
+   opacity: 1,
+  },
+ },
+ '@keyframes backgroundAnimation': {
+  '0%': {
+   backgroundColor: '#000000',
+  },
+  '100%': {
+   backgroundColor: '#333333',
+  },
+ },
+
 }));
-export default function Home(){ 
+
+export default function Home(){
 const classes = useStyles()
 return (
 <Card className={classes.card}>
 
- <Typography variant="h6" className={classes.title}>Home Page</Typography>
 <CardMedia className={classes.media}
 image={unicornbikeImg} title="Unicorn Bicycle"/>
-<CardContent>
-<Typography variant="body2" component="p"> 
-Welcome to the Product List home page.
-</Typography> 
-</CardContent>
-</Card> 
+</Card>
 )
 }
 
+
+
+
+// import React from 'react';
+// import { makeStyles } from '@material-ui/core/styles';
+// import Card from '@material-ui/core/Card';
+// import CardMedia from '@material-ui/core/CardMedia';
+// import unicornbikeImg from './../assets/images/group-logo.png';
+
+// const useStyles = makeStyles(theme => ({
+//  root: {
+//   backgroundColor: 'black',
+//   height: '100vh',
+//   display: 'flex',
+//   justifyContent: 'center',
+//   alignItems: 'center',
+//   animation: '$backgroundAnimation 10s infinite alternate',
+//  },
+//  card: {
+//   backgroundColor: 'black',
+//   transition: 'transform 0.5s ease',
+//   '&:hover': {
+//    transform: 'scale(1.05)',
+//   },
+//  },
+//  media: {
+//   height: '80vh',
+//   width: 'auto',
+//   opacity: 0,
+//   animation: '$fadeIn 2s forwards',
+//  },
+//  '@keyframes fadeIn': {
+//   '0%': {
+//    opacity: 0,
+//   },
+//   '100%': {
+//    opacity: 1,
+//   },
+//  },
+//  '@keyframes backgroundAnimation': {
+//   '0%': {
+//    backgroundColor: '#000000',
+//   },
+//   '100%': {
+//    backgroundColor: '#333333',
+//   },
+//  },
+// }));
+
+// export default function Home() {
+//  const classes = useStyles();
+//  return (
+//      <div className={classes.root}>
+//       <Card className={classes.card}>
+//        <CardMedia
+//            className={classes.media}
+//            image={unicornbikeImg}
+//            title="Unicorn Bicycle"
+//        />
+//       </Card>
+//      </div>
+//  );
+// }
