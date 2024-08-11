@@ -17,23 +17,61 @@ import { Navigate, Link } from 'react-router-dom';
 import DeleteProduct from './DeleteProduct';
 
 const useStyles = makeStyles(theme => ({
-  root: theme.mixins.gutters({
-    maxWidth: 600,
-    margin: 'auto',
+  root: {
+    height: '100vh',
+    backgroundImage: 'url(/assets/images/backgroundImage.png), linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.5))',
+    backgroundSize: 'cover',
+    backgroundBlendMode: 'overlay',
+    backgroundPosition: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    animation: '$fadeIn 2s ease-in-out',
+  },
+  '@keyframes fadeIn': {
+    '0%': { opacity: 0 },
+    '100%': { opacity: 1 },
+  },
+  paper: {
+    maxWidth: 800,
+    margin: '0 auto',
+    textAlign: 'center',
     padding: theme.spacing(3),
-    marginTop: theme.spacing(5)
-  }),
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+    backdropFilter: 'blur(10px)',
+    animation: '$slideIn 1s ease-in-out',
+  },
+  '@keyframes slideIn': {
+    '0%': { transform: 'translateY(-50px)', opacity: 0 },
+    '100%': { transform: 'translateY(0)', opacity: 1 },
+  },
   title: {
     margin: `${theme.spacing(3)}px 0 ${theme.spacing(3)}px ${theme.spacing(1)}px`,
-    color: theme.palette.protectedTitle,
-    fontSize: '1.2em'
+    color: theme.palette.primary.main,
+    fontSize: '1.2em',
+    fontWeight: 'bold',
   },
   addButton: {
-    float: 'right'
+    maxWidth: 800,
+    float: 'right',
   },
   leftIcon: {
-    marginRight: '8px'
-  }
+    marginRight: '8px',
+  },
+  listItem: {
+    '&:hover': {
+      backgroundColor: theme.palette.action.hover,
+      transition: '0.3s',
+    },
+  },
+  iconButton: {
+    '&:hover': {
+      color: theme.palette.secondary.main,
+      transform: 'scale(1.2)',
+      transition: '0.3s',
+    },
+  },
 }));
 
 export default function MyProducts() {
@@ -59,7 +97,7 @@ export default function MyProducts() {
     });
 
     return function cleanup() {
-      //abortController.abort();
+      abortController.abort();
     };
   }, [jwt]);
 
@@ -75,14 +113,14 @@ export default function MyProducts() {
   }
 
   return (
-    <div>
-      <Paper className={classes.root} elevation={4}>
+    <div className={classes.root}>
+      <Paper className={classes.paper} elevation={4}>
         <Typography type="title" className={classes.title}>
           Your Products
           <span className={classes.addButton}>
             <Link to="/owner/product/new">
               <Button color="primary" variant="contained">
-                <Icon className={classes.leftIcon}>add_box</Icon> New Product
+                 New Product
               </Button>
             </Link>
           </span>
@@ -90,12 +128,12 @@ export default function MyProducts() {
         <List dense>
           {products.map((product, i) => (
             <span key={i}>
-              <ListItem button>
+              <ListItem button className={classes.listItem}>
                 <ListItemText primary={product.name} secondary={product.description} />
                 {auth.isAuthenticated().user && auth.isAuthenticated().user._id === product.owner._id && (
                   <ListItemSecondaryAction>
                     <Link to={"/owner/product/edit/" + product._id}>
-                      <IconButton aria-label="Edit" color="primary">
+                      <IconButton aria-label="Edit" color="primary" className={classes.iconButton}>
                         <Edit />
                       </IconButton>
                     </Link>
