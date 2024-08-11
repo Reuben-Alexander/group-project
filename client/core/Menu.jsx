@@ -9,7 +9,9 @@ import auth from '../lib/auth-helper';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const isActive = (location, path) => {
-  return location.pathname === path ? { color: '#ff4081' } : { color: '#ffffff' };
+  // return location.pathname === path ? { color: '#ff4081' } : { color: '#ffffff' };
+  return location.pathname === path ? { color: '#ff4081' } : { color: 'gold' };
+
 };
 
 export default function Menu() {
@@ -19,7 +21,7 @@ export default function Menu() {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" color="inherit">
+        <Typography variant="h6" style={{ color: 'gold' }}>
           Product List
         </Typography>
         <Link to="/">
