@@ -14,17 +14,39 @@ import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
-    margin: 30,
+    height: '100vh',
+    backgroundImage: 'url(/assets/images/backgroundImage.png), linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.5))',
+    backgroundSize: 'cover',
+    backgroundBlendMode: 'overlay',
+    backgroundPosition: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    animation: '$fadeIn 2s ease-in-out',
+  },
+  '@keyframes fadeIn': {
+    '0%': { opacity: 0 },
+    '100%': { opacity: 1 },
   },
   card: {
+    maxWidth: 600,
+    margin: 'auto',
     textAlign: 'center',
     paddingBottom: theme.spacing(2),
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+    backdropFilter: 'blur(10px)',
+    animation: '$slideIn 1s ease-in-out',
+  },
+  '@keyframes slideIn': {
+    '0%': { transform: 'translateY(-50px)', opacity: 0 },
+    '100%': { transform: 'translateY(0)', opacity: 1 },
   },
   title: {
     margin: theme.spacing(2),
-    color: theme.palette.protectedTitle,
-    fontSize: '1.2em',
+    color: theme.palette.primary.main,
+    fontSize: '1.5em',
+    fontWeight: 'bold',
   },
   error: {
     verticalAlign: 'middle',
@@ -37,6 +59,12 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: 'auto',
     marginBottom: theme.spacing(2),
+    position: 'relative',
+    overflow: 'hidden',
+    '&:hover': {
+      boxShadow: '0 0 20px #ffff00, 0 0 30px #ffff00, 0 0 40px #ffff00',
+      transition: '0.3s',
+    },
   },
 }));
 
@@ -56,7 +84,7 @@ export default function EditProduct() {
     const abortController = new AbortController();
     const signal = abortController.signal;
 
-    read({ productId:params.productId}, signal).then((data) => {
+    read({ productId: params.productId }, signal).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
@@ -72,24 +100,28 @@ export default function EditProduct() {
     return () => {
       abortController.abort();
     };
-  }, []);
+  }, [params.productId]);
 
   const clickSubmit = () => {
-    let productData = new FormData()
-    values.name && productData.append('name', values.name)
-    values.description && productData.append('description', values.description)
-    update({
-      productId: params.productId
-    }, {
-      t: jwt.token
-    }, productData).then((data) => {
+    let productData = new FormData();
+    values.name && productData.append('name', values.name);
+    values.description && productData.append('description', values.description);
+    update(
+      {
+        productId: params.productId,
+      },
+      {
+        t: jwt.token,
+      },
+      productData
+    ).then((data) => {
       if (data.error) {
-        setValues({...values, error: data.error})
+        setValues({ ...values, error: data.error });
       } else {
-        setValues({...values, 'redirect': true})
+        setValues({ ...values, redirect: true });
       }
-    })
-  }
+    });
+  };
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
@@ -99,11 +131,10 @@ export default function EditProduct() {
     return <Navigate to="/owner/product" />;
   }
 
-
   return (
     <div className={classes.root}>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
+      <Grid container justify="center" alignItems="center">
+        <Grid item xs={12} sm={8} md={6}>
           <Card className={classes.card}>
             <CardContent>
               <Typography variant="h6" className={classes.title}>
