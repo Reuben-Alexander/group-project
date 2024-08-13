@@ -1,0 +1,14 @@
+{
+  "assets/images/group-logo.png": {
+    "file": "assets/group-logo-CbdFMglu.png",
+    "src": "assets/images/group-logo.png"
+  },
+  "src/main.jsx": {
+    "file": "assets/main-D10DRw9A.js",
+    "src": "src/main.jsx",
+    "isEntry": true,
+    "assets": [
+      "assets/group-logo-CbdFMglu.png"
+    ]
+  }
+}
